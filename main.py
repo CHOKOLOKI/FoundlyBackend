@@ -10,6 +10,7 @@ from sqlalchemy.orm import Session
 from datetime import datetime
 from sqlalchemy import DateTime
 import math
+from fastapi.middleware.cors import CORSMiddleware
 
 DATABASE_URL = "sqlite:///./foundly.db"
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
@@ -17,6 +18,13 @@ Base = declarative_base()
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://localhost:5173"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Database model for items
 class DBItem(Base):
